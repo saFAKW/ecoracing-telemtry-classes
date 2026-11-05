@@ -5,10 +5,10 @@
 
 // ---- Temperature ----
 Temperature Temperature::fromRaw(int raw, int adcMax, float minC, float maxC) {
-    if (adcMax <= 0) return Temperature(minC);   // avoid dividing by zero (that would be bad)
+    if (adcMax <= 0) return Temperature(minC);   // avoid dividing by zero
     if (raw < 0) raw = 0;                        // clamp so weird numbers can't break it
     if (raw > adcMax) raw = adcMax;
-    // the (float) bits are so it does decimal maths, not integer maths (learned that the hard way)
+    // the (float) bits are so it does decimal maths, not integer maths
     return Temperature(minC + (maxC - minC) * (float)raw / (float)adcMax);
 }
 
@@ -16,7 +16,7 @@ float Temperature::in(TempUnit u) const {
     switch (u) {   // switch = fancy if/else for picking between options
         case TempUnit::Fahrenheit: return toFahrenheit();
         case TempUnit::Kelvin:     return toKelvin();
-        default:                   return toCelsius();   // Celsius or anything else
+        default:                   return toCelsius();   // Celsius
     }
 }
 
@@ -95,7 +95,7 @@ void StatusMonitor::apply(SensorReading& r) {
     uint8_t flags = STATUS_OK;
     uint8_t err   = ERR_NONE;
 
-    // 1. is the raw data even sensible? (outside the ADC range means a wire fell out or something)
+    // 1. is the raw data even sensible? (outside the ADC range means a wire fell out)
     bool tempBad = (r.tempRaw() < 0 || r.tempRaw() > r.adcMax());
     bool potBad  = (r.throttle().raw() < 0 || r.throttle().raw() > r.adcMax());
     if (tempBad || potBad) {
