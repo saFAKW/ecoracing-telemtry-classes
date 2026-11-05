@@ -1,7 +1,6 @@
-// SensorReading.h - Safa's telemetry classes
 // (first time properly using C++ so bear with me lol)
-// No Arduino.h in here so I can compile it on my laptop without the board
-#ifndef SENSOR_READING_H   // include guard - stops the file being pasted in twice, apparently this matters
+
+#ifndef SENSOR_READING_H   // include guard - stops the file being pasted in twice
 #define SENSOR_READING_H
 
 #include <stdint.h>   // for uint8_t / uint32_t (numbers with a fixed size)
@@ -79,7 +78,7 @@ public:
     void     setStatus(uint8_t flags, uint8_t errorCode) { flags_ = flags; error_ = errorCode; }
     bool     isOk() const { return flags_ == STATUS_OK; }
 
-    // if e-stop is on the throttle gets forced to 0 (obviously we don't want the car speeding up in an emergency)
+    // if e-stop is on the throttle gets forced to 0 (we don't want the car speeding up in an emergency)
     float effectiveThrottlePercent() const;
 
     // builds the line to send, e.g.  TEMP:24.5,POT:512,BTN:0,STATUS:OK,ERR:0,TS:184320,CHK:7A
